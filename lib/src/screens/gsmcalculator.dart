@@ -8,6 +8,11 @@ class GsmCalculator extends StatefulWidget {
 }
 
 class _GsmCalculatorState extends State<GsmCalculator> {
+  double columnWidth = 150;
+  double fieldWidth = 100;
+  double dropDownWidth = 80;
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,43 +20,198 @@ class _GsmCalculatorState extends State<GsmCalculator> {
         title: Text('GSM Calculator'),
         centerTitle: true,
       ),
-      body: Center(
+      body: Form(
+        key: _formKey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(10.0),
-                  border:
-                      Border.all(color: Theme.of(context).colorScheme.primary)),
-              width: 200,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Warp Yarn Count',
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: columnWidth,
+                      child: Text('Warp Yarn Size:'),
+                    ),
+                    Container(
+                      width: fieldWidth,
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter Value';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: dropDownWidth,
+                      child: DropdownButtonFormField<String>(
+                        value: 'Ne',
+                        icon: const Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        elevation: 16,
+                        items: ['Ne', 'Nm', 'tex', 'denier']
+                            .map((label) => DropdownMenuItem(
+                                  child: Text(label.toString()),
+                                  value: label,
+                                ))
+                            .toList(),
+                        hint: Text('Rating'),
+                        onChanged: (value) {},
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: columnWidth,
+                      child: Text('Weft Yarn Size:'),
+                    ),
+                    Container(
+                      width: fieldWidth,
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: dropDownWidth,
+                      child: DropdownButtonFormField<String>(
+                        value: 'Ne',
+                        icon: const Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        elevation: 16,
+                        items: ['Ne', 'Nm', 'tex', 'denier']
+                            .map((label) => DropdownMenuItem(
+                                  child: Text(label.toString()),
+                                  value: label,
+                                ))
+                            .toList(),
+                        hint: Text('Rating'),
+                        onChanged: (value) {},
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: columnWidth,
+                      child: Text('Ends Per Inch:'),
+                    ),
+                    Container(
+                      width: fieldWidth,
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: columnWidth,
+                      child: Text('Picks Per Inch:'),
+                    ),
+                    Container(
+                      width: fieldWidth,
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: columnWidth,
+                      child: Text('Warp Crimp (%):'),
+                    ),
+                    Container(
+                      width: fieldWidth,
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: columnWidth,
+                      child: Text('Weft Crimp (%):'),
+                    ),
+                    Container(
+                      width: fieldWidth,
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Processing Data')));
+                          }
+                        },
+                        child: Text('Calculate'),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          _formKey.currentState.reset();
+                        },
+                        child: Text('Reset'),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ),
-            Container(
-              width: 200,
-              child: TextField(),
-            ),
-            Container(
-              width: 100,
-              child: TextField(),
-            ),
-            Container(
-              width: 100,
-              child: TextField(),
-            ),
-            Container(
-              width: 100,
-              child: TextField(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: columnWidth,
+                      child: Text('Calculated GSM:'),
+                    ),
+                    Container(
+                      width: fieldWidth,
+                      child: Text('result'),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
