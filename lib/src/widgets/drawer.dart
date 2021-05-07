@@ -44,9 +44,9 @@ Widget drawerMenu(BuildContext context) {
           leading: FaIcon(
             FontAwesomeIcons.arrowCircleRight,
           ),
-          title: Text('WARPING'),
+          title: Text('MONOFILAMENT DIA'),
           onTap: () {
-            Navigator.popAndPushNamed(context, '/warping');
+            Navigator.popAndPushNamed(context, '/mono');
           },
         ),
       ],
