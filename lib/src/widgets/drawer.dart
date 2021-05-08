@@ -44,7 +44,7 @@ Widget drawerMenu(BuildContext context) {
           leading: FaIcon(
             FontAwesomeIcons.arrowCircleRight,
           ),
-          title: Text('MONOFILAMENT DIA'),
+          title: Text('DIAMETER'),
           onTap: () {
             Navigator.popAndPushNamed(context, '/mono');
           },
