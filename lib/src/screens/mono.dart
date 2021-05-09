@@ -15,8 +15,6 @@ class MonoDia extends StatefulWidget {
 }
 
 class _MonoDiaState extends State<MonoDia> {
-  double fieldWidth = 70;
-  double dropDownWidth = 110;
   double denier = double.nan;
   double density = 0.91;
   double diameter = double.nan;
@@ -154,7 +152,7 @@ class _MonoDiaState extends State<MonoDia> {
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "Diameter (mm)",
-                        fillColor: Colors.white,
+                        filled: true,
                         border: OutlineInputBorder(
                           borderSide: BorderSide(),
                         ),
@@ -211,7 +209,7 @@ class _MonoDiaState extends State<MonoDia> {
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "Denier",
-                        fillColor: Colors.white,
+                        filled: true,
                         border: OutlineInputBorder(
                           borderSide: BorderSide(),
                         ),

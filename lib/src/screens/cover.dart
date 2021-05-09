@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,14 +9,14 @@ import '../widgets/drawer.dart';
 
 RegExp exp = RegExp(r'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)');
 
-class GsmCalculator extends StatefulWidget {
-  GsmCalculator({Key? key}) : super(key: key);
+class Cover extends StatefulWidget {
+  Cover({Key? key}) : super(key: key);
 
   @override
-  _GsmCalculatorState createState() => _GsmCalculatorState();
+  _CoverState createState() => _CoverState();
 }
 
-class _GsmCalculatorState extends State<GsmCalculator> {
+class _CoverState extends State<Cover> {
   final _formKey = GlobalKey<FormState>();
   double warpCount = double.nan;
   double weftCount = double.nan;
@@ -25,46 +26,33 @@ class _GsmCalculatorState extends State<GsmCalculator> {
   double ppi = double.nan;
   double warpCrimp = double.nan;
   double weftCrimp = double.nan;
+  double weaveFactor = 1;
   String? newValue;
-  String? newValue1;
-  double gsm = double.nan;
+  double cover = double.nan;
 
-  void calculateGSM() {
+  void calculateCover() {
     setState(
       () {
-        if (newValue == 'Nm') {
-          warpLD = 9000 / warpCount;
-        } else if (newValue == 'Tex') {
-          warpLD = warpCount * 9;
-        } else if (newValue == 'Denier') {
-          warpLD = warpCount;
-        } else if (newValue == 'Dtex') {
-          warpLD = warpCount * 0.9;
+        if (newValue == 'Twill 1/2') {
+          weaveFactor = 0.87;
+        } else if (newValue == 'Twill 1/3') {
+          weaveFactor = 0.77;
+        } else if (newValue == 'Basket 2/2') {
+          weaveFactor = 0.82;
+        } else if (newValue == 'Satin 1/4') {
+          weaveFactor = 0.69;
         } else {
-          warpLD = 5315 / warpCount;
-        }
-
-        if (newValue1 == 'Nm') {
-          weftLD = 9000 / weftCount;
-        } else if (newValue1 == 'Tex') {
-          weftLD = weftCount * 9;
-        } else if (newValue1 == 'Denier') {
-          weftLD = weftCount;
-        } else if (newValue1 == 'Dtex') {
-          weftLD = weftCount * 0.9;
-        } else {
-          weftLD = 5315 / weftCount;
+          weaveFactor = 1;
         }
 
         if (!epi.isNaN &&
             !ppi.isNaN &&
             !warpCount.isNaN &&
             !weftCount.isNaN &&
-            !warpLD.isNaN &&
-            !weftLD.isNaN) {
-          gsm = ((epi * (1 + (warpCrimp / 100))) * warpLD / 354330.7 +
-                  (ppi * (1 + (weftCrimp / 100))) * weftLD / 354330.7) /
-              0.000645;
+            !weaveFactor.isNaN) {
+          cover = weaveFactor *
+              ((epi / sqrt(warpCount) + ppi / sqrt(weftCount)) -
+                  ((epi / sqrt(warpCount) * ppi / sqrt(weftCount)) / 28));
         }
       },
     );
@@ -74,7 +62,7 @@ class _GsmCalculatorState extends State<GsmCalculator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GSM'),
+        title: Text('Fabric Cover'),
         centerTitle: true,
       ),
       drawer: drawerMenu(context),
@@ -88,7 +76,7 @@ class _GsmCalculatorState extends State<GsmCalculator> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  '\nWOVEN FABRIC GSM CALCULATION\n',
+                  '\nWOVEN FABRIC COVER FACTOR CALCULATION\n',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Theme.of(context).accentColor),
                 ),
@@ -99,7 +87,7 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                       child: TextFormField(
                         style: Theme.of(context).textTheme.bodyText1,
                         keyboardType: TextInputType.number,
-                        decoration: _inputFormat('Warp Yarn Count'),
+                        decoration: _inputFormat('Warp Yarn Count (Ne)'),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                             exp,
@@ -110,9 +98,9 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                             warpCount = double.parse(value);
                           } catch (e) {
                             warpCount = double.nan;
-                            gsm = double.nan;
+                            cover = double.nan;
                           }
-                          calculateGSM();
+                          calculateCover();
                         },
                       ),
                     ),
@@ -120,43 +108,10 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                       padding: EdgeInsets.all(10),
                     ),
                     Flexible(
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          isDense: false,
-                          labelText: 'Unit',
-                          // helperText: 'Choose polymer for appropriate density',
-                          filled: true,
-                        ),
-                        value: 'Ne',
-                        icon: const Icon(Icons.arrow_downward),
-                        items: ['Ne', 'Nm', 'Tex', 'Denier', 'Dtex']
-                            .map((label) => DropdownMenuItem(
-                                  child: Text(
-                                    label.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                  value: label,
-                                ))
-                            .toList(),
-                        hint: Text('Rating'),
-                        onChanged: (value) {
-                          newValue = value;
-                          calculateGSM();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Flexible(
                       child: TextFormField(
                         style: Theme.of(context).textTheme.bodyText1,
                         keyboardType: TextInputType.number,
-                        decoration: _inputFormat("Weft Yarn Count"),
+                        decoration: _inputFormat("Weft Yarn Count (Ne)"),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                             exp,
@@ -167,39 +122,9 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                             weftCount = double.parse(value);
                           } catch (e) {
                             weftCount = double.nan;
-                            gsm = double.nan;
+                            cover = double.nan;
                           }
-                          calculateGSM();
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                    ),
-                    Flexible(
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          isDense: false,
-                          labelText: 'Unit',
-                          // helperText: 'Choose polymer for appropriate density',
-                          filled: true,
-                        ),
-                        value: 'Ne',
-                        icon: const Icon(Icons.arrow_downward),
-                        items: ['Ne', 'Nm', 'Tex', 'Denier', 'Dtex']
-                            .map((label) => DropdownMenuItem(
-                                  child: Text(
-                                    label.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                  value: label,
-                                ))
-                            .toList(),
-                        hint: Text('Rating'),
-                        onChanged: (value) {
-                          newValue1 = value;
-                          calculateGSM();
+                          calculateCover();
                         },
                       ),
                     ),
@@ -223,9 +148,9 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                             epi = double.parse(value);
                           } catch (e) {
                             epi = double.nan;
-                            gsm = double.nan;
+                            cover = double.nan;
                           }
-                          calculateGSM();
+                          calculateCover();
                         },
                       ),
                     ),
@@ -247,9 +172,9 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                             ppi = double.parse(value);
                           } catch (e) {
                             ppi = double.nan;
-                            gsm = double.nan;
+                            cover = double.nan;
                           }
-                          calculateGSM();
+                          calculateCover();
                         },
                       ),
                     ),
@@ -260,65 +185,52 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyText1,
-                        keyboardType: TextInputType.number,
-                        decoration: _inputFormat("Warp Crimp (%)"),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            exp,
-                          )
-                        ],
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          isDense: false,
+                          labelText: 'Fabric Weave',
+                          // helperText: 'Choose polymer for appropriate density',
+                          filled: true,
+                        ),
+                        value: 'Plain 1/1',
+                        icon: const Icon(Icons.arrow_downward),
+                        items: weaves
+                            .map((label) => DropdownMenuItem(
+                                  child: Text(
+                                    label.toString(),
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  value: label,
+                                ))
+                            .toList(),
+                        hint: Text('Rating'),
                         onChanged: (value) {
-                          try {
-                            warpCrimp = double.parse(value);
-                          } catch (e) {
-                            warpCrimp = double.nan;
-                            gsm = double.nan;
-                          }
-                          calculateGSM();
+                          newValue = value;
+                          calculateCover();
                         },
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(10),
                     ),
-                    Flexible(
-                      child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyText1,
-                        keyboardType: TextInputType.number,
-                        decoration: _inputFormat("Weft Crimp (%)"),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            exp,
-                          )
-                        ],
-                        onChanged: (value) {
-                          try {
-                            weftCrimp = double.parse(value);
-                          } catch (e) {
-                            weftCrimp = double.nan;
-                            gsm = double.nan;
-                          }
-                          calculateGSM();
-                        },
-                      ),
-                    ),
+                    _ResultDisplay('Weave Factor', weaveFactor),
                   ],
                 ),
                 Divider(),
                 Container(
                   child: InputDecorator(
                     decoration: InputDecoration(
-                      labelText: "Calculated GSM ",
+                      labelText: 'Fabric Cover Factor',
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderSide: BorderSide(),
                       ),
                     ),
-                    child: (gsm.isNaN)
+                    child: (cover.isNaN)
                         ? Text('')
                         : Text(
-                            gsm.toStringAsFixed(2),
+                            cover.toStringAsFixed(2),
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
                             ),
@@ -335,15 +247,12 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                     ),
                   ),
                   onPressed: () {
-                    gsm = double.nan;
+                    cover = double.nan;
                     warpCount = double.nan;
                     weftCount = double.nan;
-                    warpLD = double.nan;
-                    weftLD = double.nan;
+                    weaveFactor = 1;
                     epi = double.nan;
                     ppi = double.nan;
-                    warpCrimp = double.nan;
-                    weftCrimp = double.nan;
                     _formKey.currentState!.reset();
                     setState(
                       () {
@@ -372,3 +281,43 @@ InputDecoration _inputFormat(String labelTextStr) {
     ),
   );
 }
+
+class _ResultDisplay extends StatelessWidget {
+  late final String label;
+  late final double result;
+
+  _ResultDisplay(this.label, this.result);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Container(
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: label,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderSide: BorderSide(),
+            ),
+          ),
+          child: (result.isNaN)
+              ? Text('')
+              : Text(
+                  result.toStringAsFixed(2),
+                  style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+List<String> weaves = [
+  'Plain 1/1',
+  'Twill 1/2',
+  'Twill 1/3',
+  'Basket 2/2',
+  'Satin 1/4',
+];

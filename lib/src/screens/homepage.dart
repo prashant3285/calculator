@@ -14,62 +14,44 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
               padding: EdgeInsets.only(top: 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/gsm');
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                    )),
-                child: Text(
-                  'GSM',
-                ),
-              ),
+              child: _button('GSM', '/gsm', context),
             ),
             Container(
               padding: EdgeInsets.only(top: 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/yarn');
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                    )),
-                child: Text(
-                  'Yarn Linear Density',
-                ),
-              ),
+              child: _button('Yarn Linear Density', '/yarn', context),
             ),
             Container(
               padding: EdgeInsets.only(top: 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/mono');
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                    )),
-                child: Text(
-                  'Monofilament Diameter',
-                ),
-              ),
+              child: _button('Monofilament Diameter', '/mono', context),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: _button('Fabric Cover', '/cover', context),
             ),
           ],
         ),
       ),
     );
   }
+}
+
+ElevatedButton _button(String label, String path, BuildContext context) {
+  return ElevatedButton(
+    onPressed: () {
+      Navigator.pushNamed(context, path);
+    },
+    style: ElevatedButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+        textStyle: TextStyle(
+          fontSize: 15,
+        )),
+    child: Text(
+      label,
+    ),
+  );
 }

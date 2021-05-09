@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../widgets/drawer.dart';
 
 class YarnLD extends StatefulWidget {
   YarnLD({Key? key}) : super(key: key);
@@ -9,8 +10,6 @@ class YarnLD extends StatefulWidget {
 }
 
 class _YarnLDState extends State<YarnLD> {
-  double fieldWidth = 80;
-  double dropDownWidth = 120;
   double denier = double.nan;
   double tex = double.nan;
   double ne = double.nan;
@@ -50,11 +49,11 @@ class _YarnLDState extends State<YarnLD> {
           denier = inputVal * .9;
         } else if (newValue == 'Denier') {
           denier = inputVal;
-        } else if (newValue == 'WAG') {
+        } else if (newValue == 'Woollen American Grain') {
           denier = inputVal * 31.89;
-        } else if (newValue == 'WCB') {
+        } else if (newValue == 'Woollen Cumberland Bunch') {
           denier = inputVal * 83.04;
-        } else if (newValue == 'WSB') {
+        } else if (newValue == 'Woollen Sowerby Bridge') {
           denier = inputVal * 217.99;
         } else if (newValue == 'Dram Silk') {
           denier = inputVal * 17.4;
@@ -72,19 +71,19 @@ class _YarnLDState extends State<YarnLD> {
           denier = 5315 / inputVal;
         } else if (newValue == 'Worsted') {
           denier = 7972.5 / inputVal;
-        } else if (newValue == 'WYS') {
+        } else if (newValue == 'Woollen Yorkshire Skein') {
           denier = 17439.8 / inputVal;
-        } else if (newValue == 'WWE') {
+        } else if (newValue == 'Woollen West of England') {
           denier = 13951.9 / inputVal;
-        } else if (newValue == 'WD') {
+        } else if (newValue == 'Woollen Dewsburry') {
           denier = 279037.5 / inputVal;
-        } else if (newValue == 'WG') {
+        } else if (newValue == 'Woollen Galashiels') {
           denier = 22323 / inputVal;
-        } else if (newValue == 'WH') {
+        } else if (newValue == 'Woollen Hawick') {
           denier = 24185.3 / inputVal;
-        } else if (newValue == 'WAR') {
+        } else if (newValue == 'Woollen American Run') {
           denier = 2790.4 / inputVal;
-        } else if (newValue == 'WAC') {
+        } else if (newValue == 'Woollen American Cut') {
           denier = 14882 / inputVal;
         } else {
           denier = 5315 / inputVal;
@@ -120,868 +119,272 @@ class _YarnLDState extends State<YarnLD> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yarn Linear Density Converter'),
+        title: Text('Yarn Count'),
         centerTitle: true,
       ),
+      drawer: drawerMenu(context),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: Text(
-                              'Yarn Linear Density:',
-                              style: Theme.of(context).textTheme.bodyText1,
-                              textAlign: TextAlign.end,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            width: fieldWidth,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyText1,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  exp,
-                                )
-                              ],
-                              onChanged: (value) {
-                                try {
-                                  inputVal = double.parse(value);
-                                } catch (e) {
-                                  inputVal = double.nan;
-                                  denier = double.nan;
-                                  ne = double.nan;
-                                  nm = double.nan;
-                                  tex = double.nan;
-                                  dtex = double.nan;
-                                  wag = double.nan;
-                                  wcb = double.nan;
-                                  wsb = double.nan;
-                                  dramSilk = double.nan;
-                                  denierSilk = double.nan;
-                                  juteDandee = double.nan;
-                                  linen = double.nan;
-                                  frenchCotton = double.nan;
-                                  rawSilk = double.nan;
-                                  spunSilk = double.nan;
-                                  worsted = double.nan;
-                                  wys = double.nan;
-                                  wwe = double.nan;
-                                  wd = double.nan;
-                                  wg = double.nan;
-                                  wh = double.nan;
-                                  war = double.nan;
-                                  wac = double.nan;
-                                }
-                                calculateLD();
-                              },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Enter Value';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            width: dropDownWidth,
-                            child: DropdownButtonFormField<String>(
-                              style: Theme.of(context).textTheme.bodyText1,
-                              value: 'Ne',
-                              icon: const Icon(Icons.arrow_downward),
-                              iconSize: 20,
-                              elevation: 16,
-                              items: [
-                                'Ne',
-                                'Nm',
-                                'Tex',
-                                'Denier',
-                                'Dtex',
-                                'WAG',
-                                'WCB',
-                                'WSB',
-                                'Dram Silk',
-                                'Denier Silk',
-                                'Jute Dandee',
-                                'Linen',
-                                'French Cotton',
-                                'Raw Silk',
-                                'Spun Silk',
-                                'Worsted',
-                                'WYS',
-                                'WWE',
-                                'WD',
-                                'WG',
-                                'WH',
-                                'WAR',
-                                'WAC'
-                              ]
-                                  .map((label) => DropdownMenuItem(
-                                        child: Text(label.toString()),
-                                        value: label,
-                                      ))
-                                  .toList(),
-                              hint: Text('Rating'),
-                              onChanged: (value) {
-                                newValue = value;
-                                calculateLD();
-                              },
-                            ),
-                          ),
-                        ],
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                '\nYARN LINEAR DENSITY CONVERSION\n',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Theme.of(context).accentColor),
+              ),
+              Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        filled: true,
+                        labelText: "Yarn Count",
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(),
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Denier :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (denier.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              denier.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Tex :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (tex.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              tex.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Nm :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (nm.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              nm.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Ne :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (ne.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              ne.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Dtex :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (dtex.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              dtex.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Dram Silk :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (dramSilk.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              dramSilk.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Denier Silk :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (denierSilk.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              denierSilk.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Jute Dandee :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (juteDandee.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              juteDandee.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Linen :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (linen.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              linen.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'French Cotton :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (frenchCotton.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              frenchCotton.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Raw Silk :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (rawSilk.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              rawSilk.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Spun Silk :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (spunSilk.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              spunSilk.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Worsted :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (worsted.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              worsted.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen American Grain (WAG) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wag.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wag.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen Cumberland Bunch (WCB) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wcb.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wcb.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen Sowerby Bridge (WSB) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wsb.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wsb.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen Yorkshire Skein (WYS) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wys.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wys.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen West of England (WWE) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wwe.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wwe.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen Dewsburry (WD) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wd.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wd.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen Galashiels (WG) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wg.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wg.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen Hawick (WH) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wh.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wh.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen American Run (WAR) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (war.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              war.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        'Woollen American Cut (WAC) :',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: (wac.isNaN)
-                                          ? Text('')
-                                          : Text(
-                                              wac.toStringAsFixed(2),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1,
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                          exp,
+                        )
+                      ],
+                      onChanged: (value) {
+                        try {
+                          inputVal = double.parse(value);
+                        } catch (e) {
+                          inputVal = double.nan;
+                          denier = double.nan;
+                          ne = double.nan;
+                          nm = double.nan;
+                          tex = double.nan;
+                          dtex = double.nan;
+                          wag = double.nan;
+                          wcb = double.nan;
+                          wsb = double.nan;
+                          dramSilk = double.nan;
+                          denierSilk = double.nan;
+                          juteDandee = double.nan;
+                          linen = double.nan;
+                          frenchCotton = double.nan;
+                          rawSilk = double.nan;
+                          spunSilk = double.nan;
+                          worsted = double.nan;
+                          wys = double.nan;
+                          wwe = double.nan;
+                          wd = double.nan;
+                          wg = double.nan;
+                          wh = double.nan;
+                          war = double.nan;
+                          wac = double.nan;
+                        }
+                        calculateLD();
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    child: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        isDense: false,
+                        labelText: 'Unit',
+                        filled: true,
+                      ),
+                      style: Theme.of(context).textTheme.bodyText1,
+                      value: 'Ne',
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 20,
+                      elevation: 16,
+                      items: _units
+                          .map((label) => DropdownMenuItem(
+                                child: Text(label.toString()),
+                                value: label,
+                              ))
+                          .toList(),
+                      hint: Text('Rating'),
+                      onChanged: (value) {
+                        newValue = value;
+                        calculateLD();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Ne', ne),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Nm", nm),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay('French Cotton', frenchCotton)
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Denier', denier),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Dtex", dtex),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay('Tex', tex)
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Dram Silk', dramSilk),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Denier Silk", denierSilk),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay('Raw Silk', rawSilk)
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Spun Silk', spunSilk),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Worsted", worsted),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay('Linen', linen)
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Woollen Sowerby Bridge', wsb),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Woollen Cumberland Bunch", wcb),
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Woollen American Grain', wag),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Woollen Yorkshire Skein", wys),
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Woollen West of England', wwe),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Woollen Dewsburry", wd),
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Woollen American Run', war),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Woollen American Cut", wac),
+                ],
+              ),
+              Divider(),
+              Row(
+                children: [
+                  _ResultDisplay('Woollen Galashiels', wg),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  _ResultDisplay("Woollen Hawick", wh),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+class _ResultDisplay extends StatelessWidget {
+  late final String label;
+  late final double result;
+
+  _ResultDisplay(this.label, this.result);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Container(
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: label,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderSide: BorderSide(),
+            ),
+          ),
+          child: (result.isNaN)
+              ? Text('')
+              : Text(
+                  result.toStringAsFixed(2),
+                  style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+List<String> _units = [
+  'Ne',
+  'Nm',
+  'Tex',
+  'Denier',
+  'Dtex',
+  'Woollen American Grain',
+  'Woollen Cumberland Bunch',
+  'Woollen Sowerby Bridge',
+  'Dram Silk',
+  'Denier Silk',
+  'Jute Dandee',
+  'Linen',
+  'French Cotton',
+  'Raw Silk',
+  'Spun Silk',
+  'Worsted',
+  'Woollen Yorkshire Skein',
+  'Woollen West of England',
+  'Woollen Dewsburry',
+  'Woollen Galashiels',
+  'Woollen Hawick',
+  'Woollen American Run',
+  'Woollen American Cut'
+];
