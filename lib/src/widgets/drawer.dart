@@ -47,9 +47,16 @@ Widget drawerMenu(BuildContext context) {
         ),
         ListTile(
           leading: MenuIcon(Icons.calculate_outlined),
-          title: MenuText('FabricCover'),
+          title: MenuText('Fabric Cover'),
           onTap: () {
             Navigator.popAndPushNamed(context, '/cover');
+          },
+        ),
+        ListTile(
+          leading: MenuIcon(Icons.calculate_outlined),
+          title: MenuText('Yarn Consumption'),
+          onTap: () {
+            Navigator.popAndPushNamed(context, '/yconsu');
           },
         ),
         ListTile(

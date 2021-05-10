@@ -7,6 +7,7 @@ import 'screens/gsm.dart';
 import 'screens/yarnld.dart';
 import 'screens/mono.dart';
 import 'screens/cover.dart';
+import 'screens/yarnconsumption.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class App extends StatelessWidget {
         '/yarn': (context) => YarnLD(),
         '/mono': (context) => MonoDia(),
         '/cover': (context) => Cover(),
+        '/yconsu': (context) => YarnCons(),
       },
     );
   }

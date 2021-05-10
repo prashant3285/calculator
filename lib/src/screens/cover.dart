@@ -20,12 +20,9 @@ class _CoverState extends State<Cover> {
   final _formKey = GlobalKey<FormState>();
   double warpCount = double.nan;
   double weftCount = double.nan;
-  double warpLD = double.nan;
-  double weftLD = double.nan;
   double epi = double.nan;
   double ppi = double.nan;
-  double warpCrimp = double.nan;
-  double weftCrimp = double.nan;
+
   double weaveFactor = 1;
   String? newValue;
   double cover = double.nan;
