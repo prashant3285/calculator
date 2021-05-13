@@ -73,6 +73,11 @@ class _GsmCalculatorState extends State<GsmCalculator> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setApplicationSwitcherDescription(
+      ApplicationSwitcherDescription(
+        label: 'KTOOL - ${global.title1}',
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(global.title1),

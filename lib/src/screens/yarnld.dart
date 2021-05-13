@@ -118,6 +118,11 @@ class _YarnLDState extends State<YarnLD> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setApplicationSwitcherDescription(
+      ApplicationSwitcherDescription(
+        label: 'KTOOL - ${global.title2}',
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(global.title2),

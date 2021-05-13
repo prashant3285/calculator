@@ -58,6 +58,11 @@ class _CoverState extends State<Cover> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setApplicationSwitcherDescription(
+      ApplicationSwitcherDescription(
+        label: 'KTOOL - ${global.title4}',
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(global.title4),

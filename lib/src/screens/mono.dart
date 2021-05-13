@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/drawer.dart';
 import '../global/var.dart' as global;
+import '../global/custom_icons.dart';
 
 class MonoDia extends StatefulWidget {
   MonoDia({Key? key}) : super(key: key);
@@ -86,6 +87,11 @@ class _MonoDiaState extends State<MonoDia> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setApplicationSwitcherDescription(
+      ApplicationSwitcherDescription(
+        label: 'KTOOL - ${global.title3}',
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(global.title3),
@@ -110,8 +116,8 @@ class _MonoDiaState extends State<MonoDia> {
                   labelText: 'Select Polymer',
                   helperText: 'Choose polymer for appropriate density',
                   filled: true,
-                  icon: FaIcon(
-                    FontAwesomeIcons.vial,
+                  icon: Icon(
+                    CustomIcon.nano_technology,
                     color: Theme.of(context).accentColor,
                   ),
                 ),

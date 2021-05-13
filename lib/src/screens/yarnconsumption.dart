@@ -42,8 +42,7 @@ class _YarnConsState extends State<YarnCons> {
           weftCon = (((reedSpace + fringe) * 2.54) / 100) *
               (ppi * 100 / 2.54) *
               fabricLen *
-              (5313 / weftCount) *
-              (1 + wastage / 100) /
+              (5313 / weftCount) /
               (9000 * 1000);
         }
 
@@ -66,6 +65,11 @@ class _YarnConsState extends State<YarnCons> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setApplicationSwitcherDescription(
+      ApplicationSwitcherDescription(
+        label: 'KTOOL - ${global.title5}',
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(global.title5),

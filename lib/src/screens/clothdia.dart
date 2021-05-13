@@ -10,43 +10,34 @@ import '../global/var.dart' as global;
 
 RegExp exp = RegExp(r'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)');
 
-class GsmCalculatorW extends StatefulWidget {
-  GsmCalculatorW({Key? key}) : super(key: key);
+class ClothDia extends StatefulWidget {
+  ClothDia({Key? key}) : super(key: key);
 
   @override
-  _GsmCalculatorWState createState() => _GsmCalculatorWState();
+  _ClothDiaState createState() => _ClothDiaState();
 }
 
-class _GsmCalculatorWState extends State<GsmCalculatorW> {
+class _ClothDiaState extends State<ClothDia> {
   final _formKey = GlobalKey<FormState>();
-  double weight = double.nan;
+  double od = double.nan;
 
-  double dia = double.nan;
-  double width = double.nan;
-  String dimension = 'Diameter (mm)';
+  double fabLength = double.nan;
+  double fabThickness = double.nan;
+  // String dimension = 'Diameter (mm)';
 
-  String? newValue = 'Circle';
-  double gsm = double.nan;
+  // String? newValue = 'Circle';
+  double rollDia = double.nan;
 
-  void calculateGSM() {
+  void calculateDia() {
     setState(
       () {
-        if (newValue == 'Circle') {
-          if (!dia.isNaN && !weight.isNaN) {
-            gsm = weight / (pi * pow((dia / 2 / 1000), 2));
-          }
-        }
-
-        if (newValue == 'Square') {
-          if (!dia.isNaN && !weight.isNaN) {
-            gsm = weight / ((dia / 1000) * (dia / 1000));
-          }
-        }
-
-        if (newValue == 'Rectangle') {
-          if (!dia.isNaN && !weight.isNaN && !width.isNaN) {
-            gsm = weight / ((dia / 1000) * (width / 1000));
-          }
+        if (!fabLength.isNaN && !od.isNaN && !fabThickness.isNaN) {
+          double turns = (fabThickness -
+                  od +
+                  (sqrt(pow(od - fabThickness, 2) +
+                      (4 * fabThickness * (fabLength * 1000) / 3.14)))) /
+              (2 * fabThickness);
+          rollDia = 2 * turns * fabThickness + od;
         }
       },
     );
@@ -56,12 +47,12 @@ class _GsmCalculatorWState extends State<GsmCalculatorW> {
   Widget build(BuildContext context) {
     SystemChrome.setApplicationSwitcherDescription(
       ApplicationSwitcherDescription(
-        label: 'KTOOL - ${global.title6}',
+        label: 'KTOOL - ${global.title7}',
       ),
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text(global.title6),
+        title: Text(global.title7),
         centerTitle: true,
       ),
       drawer: drawerMenu(context),
@@ -75,7 +66,7 @@ class _GsmCalculatorWState extends State<GsmCalculatorW> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  '\n${global.desc6.toUpperCase()}\n',
+                  '\n${global.desc7.toUpperCase()}\n',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Theme.of(context).accentColor),
                 ),
@@ -85,7 +76,7 @@ class _GsmCalculatorWState extends State<GsmCalculatorW> {
                     Flexible(
                       child: TextFormField(
                         keyboardType: TextInputType.number,
-                        decoration: _inputFormat('Weight (g)'),
+                        decoration: _inputFormat('Fabric Length (m)'),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                             exp,
@@ -93,12 +84,12 @@ class _GsmCalculatorWState extends State<GsmCalculatorW> {
                         ],
                         onChanged: (value) {
                           try {
-                            weight = double.parse(value);
+                            fabLength = double.parse(value);
                           } catch (e) {
-                            weight = double.nan;
-                            gsm = double.nan;
+                            fabLength = double.nan;
+                            rollDia = double.nan;
                           }
-                          calculateGSM();
+                          calculateDia();
                         },
                       ),
                     ),
@@ -106,35 +97,25 @@ class _GsmCalculatorWState extends State<GsmCalculatorW> {
                       padding: EdgeInsets.all(10),
                     ),
                     Flexible(
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          isDense: false,
-                          labelText: 'Fabric Shape',
-                          // helperText: 'Choose polymer for appropriate density',
-                          filled: true,
-                        ),
-                        value: 'Circle',
-                        icon: const Icon(Icons.arrow_downward),
-                        items: ['Circle', 'Square', 'Rectangle']
-                            .map((label) => DropdownMenuItem(
-                                  child: Text(
-                                    label.toString(),
-                                  ),
-                                  value: label,
-                                ))
-                            .toList(),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: _inputFormat('Fabric Thickness (mm)'),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            exp,
+                          )
+                        ],
                         onChanged: (value) {
-                          newValue = value;
-                          if (value != 'Circle') {
-                            dimension = 'Length (mm)';
-                          } else {
-                            dimension = 'Diameter (mm)';
+                          try {
+                            fabThickness = double.parse(value);
+                          } catch (e) {
+                            fabThickness = double.nan;
+                            rollDia = double.nan;
                           }
-
-                          calculateGSM();
+                          calculateDia();
                         },
                       ),
-                    ),
+                    )
                   ],
                 ),
                 Divider(),
@@ -144,7 +125,8 @@ class _GsmCalculatorWState extends State<GsmCalculatorW> {
                     Flexible(
                       child: TextFormField(
                         keyboardType: TextInputType.number,
-                        decoration: _inputFormat(dimension),
+                        decoration:
+                            _inputFormat('Cloth Tube Outer Diameter (mm)'),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                             exp,
@@ -152,59 +134,30 @@ class _GsmCalculatorWState extends State<GsmCalculatorW> {
                         ],
                         onChanged: (value) {
                           try {
-                            dia = double.parse(value);
+                            od = double.parse(value);
                           } catch (e) {
-                            dia = double.nan;
-                            gsm = double.nan;
+                            od = double.nan;
+                            rollDia = double.nan;
                           }
-                          calculateGSM();
+                          calculateDia();
                         },
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                    ),
-                    (newValue == 'Rectangle')
-                        ? Flexible(
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              decoration: _inputFormat('Width (mm)'),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  exp,
-                                )
-                              ],
-                              onChanged: (value) {
-                                try {
-                                  width = double.parse(value);
-                                } catch (e) {
-                                  width = double.nan;
-                                  gsm = double.nan;
-                                }
-                                calculateGSM();
-                              },
-                            ),
-                          )
-                        : Flexible(
-                            child: Text(''),
-                          ),
                   ],
                 ),
-                Divider(),
-                Divider(),
                 Divider(),
                 Container(
                   child: InputDecorator(
                     decoration: InputDecoration(
-                      labelText: "Calculated GSM ",
+                      labelText: "Cloth Roll Diameter (mm)",
                       border: OutlineInputBorder(
                         borderSide: BorderSide(),
                       ),
                     ),
-                    child: (gsm.isNaN)
+                    child: (rollDia.isNaN)
                         ? Text('')
                         : Text(
-                            gsm.toStringAsFixed(2),
+                            rollDia.toStringAsFixed(2),
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
                             ),
@@ -221,13 +174,11 @@ class _GsmCalculatorWState extends State<GsmCalculatorW> {
                     ),
                   ),
                   onPressed: () {
-                    gsm = double.nan;
-                    weight = double.nan;
+                    rollDia = double.nan;
+                    od = double.nan;
 
-                    dia = double.nan;
-                    width = double.nan;
-                    dimension = 'Diameter (mm)';
-                    newValue = "Circle";
+                    fabLength = double.nan;
+                    fabThickness = double.nan;
 
                     _formKey.currentState!.reset();
                     setState(

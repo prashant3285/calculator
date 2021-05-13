@@ -92,7 +92,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             focusColor: Colors.amber,
                             onTap: () {
-                              Navigator.pushNamed(context, toolPath[index]);
+                              Navigator.pushNamed(
+                                  context, toolPath[searchTool[index]]);
                             },
                           ),
                         );
@@ -179,6 +180,8 @@ List<String> tool = [
   global.title4,
   global.title5,
   global.title6,
+  global.title7,
+  global.title8,
 ];
 
 List<String> toolPath = [
@@ -188,6 +191,8 @@ List<String> toolPath = [
   '/cover',
   '/yconsu',
   '/gsmw',
+  '/clothd',
+  '/yarncont',
 ];
 
 List<String> toolTips = [
@@ -197,6 +202,8 @@ List<String> toolTips = [
   global.desc4,
   global.desc5,
   global.desc6,
+  global.desc7,
+  global.desc8,
 ];
 
 List<Icon> toolIcon = [
@@ -206,6 +213,8 @@ List<Icon> toolIcon = [
   Icon(CustomIcon.textile),
   Icon(CustomIcon.yarn_2_),
   Icon(CustomIcon.textile),
+  Icon(CustomIcon.textile),
+  Icon(CustomIcon.yarn_2_),
 ];
 
 List<int> searchTool = [];

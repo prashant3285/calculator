@@ -9,6 +9,10 @@ import 'screens/mono.dart';
 import 'screens/cover.dart';
 import 'screens/yarnconsumption.dart';
 import 'screens/gsmw.dart';
+import 'screens/clothdia.dart';
+import 'screens/yarnContent.dart';
+
+import '../src/global/var.dart' as global;
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -16,6 +20,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: global.appTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -41,6 +46,8 @@ class App extends StatelessWidget {
         '/cover': (context) => Cover(),
         '/yconsu': (context) => YarnCons(),
         '/gsmw': (context) => GsmCalculatorW(),
+        '/clothd': (context) => ClothDia(),
+        '/yarncont': (context) => YarnContent(),
       },
     );
   }
