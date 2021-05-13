@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/drawer.dart';
+import '../global/var.dart' as global;
 
 class YarnLD extends StatefulWidget {
   YarnLD({Key? key}) : super(key: key);
@@ -119,7 +120,7 @@ class _YarnLDState extends State<YarnLD> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yarn Count'),
+        title: Text(global.title2),
         centerTitle: true,
       ),
       drawer: drawerMenu(context),
@@ -131,7 +132,7 @@ class _YarnLDState extends State<YarnLD> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                '\nYARN LINEAR DENSITY CONVERSION\n',
+                '\n${global.desc2.toUpperCase()}\n',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).accentColor),
               ),

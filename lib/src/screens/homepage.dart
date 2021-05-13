@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ktool/src/global/var.dart';
 
 import '../widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +16,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController editingController = TextEditingController();
   @override
+  void initState() {
+    searchTool.clear();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -31,14 +36,15 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Text(
-              'This is an opensource project\nPost Tool/Calculator request on Github Issues',
+              'This is an opensource project. Post Tool/Calculator request on Github Issues',
               textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
             ),
             InkWell(
               child: Text(
                 'https://github.com/prashant3285/calculator',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.amber[200]),
+                style: TextStyle(color: Colors.amber[200], fontSize: 10),
               ),
               onTap: () {
                 _launchURL();
@@ -51,6 +57,7 @@ class _HomePageState extends State<HomePage> {
                 filterSearchResults(value);
               },
               decoration: InputDecoration(
+                  isDense: true,
                   labelText: "Search",
                   prefixIcon: Icon(Icons.search),
                   suffixIcon: IconButton(
@@ -111,6 +118,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             focusColor: Colors.amber,
                             onTap: () {
+                              searchTool.clear();
                               Navigator.pushNamed(context, toolPath[index]);
                             },
                           ),

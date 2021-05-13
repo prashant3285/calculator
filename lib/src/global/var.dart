@@ -2,7 +2,7 @@ String title1 = 'GSM (Construction based)';
 String desc1 = 'Woven fabric GSM calculation based on fabric construction';
 
 String title2 = 'Yarn Linear Density';
-String desc2 = 'Woven fabric GSM calculation based on fabric construction';
+String desc2 = 'Yarn linear density conversion';
 
 String title3 = 'Monofilament Diameter';
 String desc3 = 'Mono-filament diameter to linear density calculation';
