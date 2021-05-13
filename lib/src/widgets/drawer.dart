@@ -90,6 +90,7 @@ List<String> tool = [
   global.title3,
   global.title4,
   global.title5,
+  global.title6
 ];
 
 List<String> toolPath = [
@@ -98,6 +99,7 @@ List<String> toolPath = [
   '/mono',
   '/cover',
   '/yconsu',
+  '/gsmw',
 ];
 
 List<Icon> toolIcon = [
@@ -106,4 +108,5 @@ List<Icon> toolIcon = [
   Icon(CustomIcon.yarn_2_),
   Icon(CustomIcon.textile),
   Icon(CustomIcon.yarn_2_),
+  Icon(CustomIcon.textile),
 ];

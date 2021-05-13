@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                 repeat = false;
               }
             });
-            if (repeat) {
+            if (!repeat) {
               searchTool.add(position);
               repeat = true;
             }
@@ -170,6 +170,7 @@ List<String> tool = [
   global.title3,
   global.title4,
   global.title5,
+  global.title6,
 ];
 
 List<String> toolPath = [
@@ -178,6 +179,7 @@ List<String> toolPath = [
   '/mono',
   '/cover',
   '/yconsu',
+  '/gsmw',
 ];
 
 List<String> toolTips = [
@@ -186,6 +188,7 @@ List<String> toolTips = [
   global.desc3,
   global.desc4,
   global.desc5,
+  global.desc6,
 ];
 
 List<Icon> toolIcon = [
@@ -194,6 +197,7 @@ List<Icon> toolIcon = [
   Icon(CustomIcon.yarn_2_),
   Icon(CustomIcon.textile),
   Icon(CustomIcon.yarn_2_),
+  Icon(CustomIcon.textile),
 ];
 
 List<int> searchTool = [];

@@ -98,7 +98,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                   children: [
                     Flexible(
                       child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyText1,
                         keyboardType: TextInputType.number,
                         decoration: _inputFormat('Warp Yarn Count'),
                         inputFormatters: [
@@ -140,7 +139,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                                   value: label,
                                 ))
                             .toList(),
-                        hint: Text('Rating'),
                         onChanged: (value) {
                           newValue = value;
                           calculateGSM();
@@ -155,7 +153,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                   children: [
                     Flexible(
                       child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyText1,
                         keyboardType: TextInputType.number,
                         decoration: _inputFormat("Weft Yarn Count"),
                         inputFormatters: [
@@ -182,7 +179,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                         decoration: InputDecoration(
                           isDense: false,
                           labelText: 'Unit',
-                          // helperText: 'Choose polymer for appropriate density',
                           filled: true,
                         ),
                         value: 'Ne',
@@ -197,7 +193,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                                   value: label,
                                 ))
                             .toList(),
-                        hint: Text('Rating'),
                         onChanged: (value) {
                           newValue1 = value;
                           calculateGSM();
@@ -211,7 +206,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                   children: [
                     Flexible(
                       child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyText1,
                         keyboardType: TextInputType.number,
                         decoration: _inputFormat("Ends Per Inch"),
                         inputFormatters: [
@@ -235,7 +229,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyText1,
                         keyboardType: TextInputType.number,
                         decoration: _inputFormat("Picks Per Inch"),
                         inputFormatters: [
@@ -262,7 +255,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                   children: [
                     Flexible(
                       child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyText1,
                         keyboardType: TextInputType.number,
                         decoration: _inputFormat("Warp Crimp (%)"),
                         inputFormatters: [
@@ -286,7 +278,6 @@ class _GsmCalculatorState extends State<GsmCalculator> {
                     ),
                     Flexible(
                       child: TextFormField(
-                        style: Theme.of(context).textTheme.bodyText1,
                         keyboardType: TextInputType.number,
                         decoration: _inputFormat("Weft Crimp (%)"),
                         inputFormatters: [
