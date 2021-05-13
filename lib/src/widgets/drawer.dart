@@ -1,85 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../global/var.dart' as global;
+import '../global/custom_icons.dart';
 
 const _url = 'https://kamlatech.in/';
 
 Widget drawerMenu(BuildContext context) {
   return Drawer(
     child: ListView(
-      padding: EdgeInsets.zero,
       children: [
         Container(
-          height: 65,
+          height: 75,
           child: DrawerHeader(
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text('CALCULATORS',
-                    style: Theme.of(context).textTheme.bodyText2),
-              ],
-            ),
+            child: IconButton(
+                icon: Icon(Icons.home_rounded),
+                onPressed: () {
+                  Navigator.popAndPushNamed(context, '/');
+                }),
           ),
         ),
-        ListTile(
-          leading: MenuIcon(Icons.calculate_outlined),
-          title: MenuText('GSM'),
-          onTap: () {
-            Navigator.popAndPushNamed(context, '/gsm');
-          },
-        ),
-        ListTile(
-          leading: MenuIcon(Icons.calculate_outlined),
-          title: MenuText('Yarn Count'),
-          onTap: () {
-            Navigator.popAndPushNamed(context, '/yarn');
-          },
-        ),
-        ListTile(
-          leading: MenuIcon(Icons.calculate_outlined),
-          title: MenuText('Diameter'),
-          onTap: () {
-            Navigator.popAndPushNamed(context, '/mono');
-          },
-        ),
-        ListTile(
-          leading: MenuIcon(Icons.calculate_outlined),
-          title: MenuText('Fabric Cover'),
-          onTap: () {
-            Navigator.popAndPushNamed(context, '/cover');
-          },
-        ),
-        ListTile(
-          leading: MenuIcon(Icons.calculate_outlined),
-          title: MenuText('Yarn Consumption'),
-          onTap: () {
-            Navigator.popAndPushNamed(context, '/yconsu');
-          },
-        ),
-        ListTile(
-          leading: MenuIcon(Icons.home),
-          title: MenuText('Home'),
-          onTap: () {
-            Navigator.popAndPushNamed(context, '/');
-          },
-        ),
-        ListTile(
-          leading: MenuIcon(Icons.language),
-          title: MenuText('Kamlatech'),
-          onTap: () {
-            _launchURL();
-          },
+        Container(
+          height: double.maxFinite,
+          child: ListView.builder(
+            itemCount: tool.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: ListTile(
+                  title: Text(
+                    '${tool[index]}',
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
+                  leading: toolIcon[index],
+                  focusColor: Colors.amber,
+                  onTap: () {
+                    Navigator.pushNamed(context, toolPath[index]);
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ],
     ),
   );
 }
 
-void _launchURL() async =>
-    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+// void _launchURL() async =>
+//     await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 
 class MenuText extends StatelessWidget {
   late final String label;
@@ -111,3 +83,27 @@ class MenuIcon extends StatelessWidget {
     );
   }
 }
+
+List<String> tool = [
+  global.title1,
+  global.title2,
+  global.title3,
+  global.title4,
+  global.title5,
+];
+
+List<String> toolPath = [
+  '/gsm',
+  '/yarn',
+  '/mono',
+  '/cover',
+  '/yconsu',
+];
+
+List<Icon> toolIcon = [
+  Icon(CustomIcon.textile),
+  Icon(CustomIcon.yarn_2_),
+  Icon(CustomIcon.yarn_2_),
+  Icon(CustomIcon.textile),
+  Icon(CustomIcon.yarn_2_),
+];
