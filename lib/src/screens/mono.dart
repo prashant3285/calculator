@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/drawer.dart';
+import '../global/var.dart' as global;
 
 class MonoDia extends StatefulWidget {
   MonoDia({Key? key}) : super(key: key);
@@ -87,9 +88,7 @@ class _MonoDiaState extends State<MonoDia> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Diameter',
-        ),
+        title: Text(global.title3),
         centerTitle: true,
       ),
       drawer: drawerMenu(context),
@@ -101,7 +100,7 @@ class _MonoDiaState extends State<MonoDia> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                '\nMONO-FILAMENT DIAMETER TO LINEAR DENSITY CONVERSION\n',
+                '\n${global.desc3.toUpperCase()}\n',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).accentColor),
               ),
@@ -140,7 +139,12 @@ class _MonoDiaState extends State<MonoDia> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text('Polymer Density : '),
-                    Text('${density.toStringAsFixed(2)} g/cc'),
+                    Text(
+                      '${density.toStringAsFixed(2)} g/cc',
+                      style: TextStyle(
+                        color: Theme.of(context).accentColor,
+                      ),
+                    )
                   ],
                 ),
               ),

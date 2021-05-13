@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/drawer.dart';
+import '../global/var.dart' as global;
 
 RegExp exp = RegExp(r'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)');
 
@@ -74,7 +75,7 @@ class _GsmCalculatorState extends State<GsmCalculator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GSM'),
+        title: Text(global.title1),
         centerTitle: true,
       ),
       drawer: drawerMenu(context),
@@ -88,7 +89,7 @@ class _GsmCalculatorState extends State<GsmCalculator> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  '\nWOVEN FABRIC GSM CALCULATION\n',
+                  '\n${global.desc1.toUpperCase()}\n',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Theme.of(context).accentColor),
                 ),

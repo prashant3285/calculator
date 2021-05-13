@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/drawer.dart';
+import '../global/var.dart' as global;
 
 RegExp exp = RegExp(r'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)');
 
@@ -59,7 +60,7 @@ class _CoverState extends State<Cover> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fabric Cover'),
+        title: Text(global.title4),
         centerTitle: true,
       ),
       drawer: drawerMenu(context),
@@ -73,7 +74,7 @@ class _CoverState extends State<Cover> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  '\nWOVEN FABRIC COVER FACTOR CALCULATION\n',
+                  '\n${global.desc4.toUpperCase()}\n',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Theme.of(context).accentColor),
                 ),

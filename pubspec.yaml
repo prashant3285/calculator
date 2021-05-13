@@ -73,6 +73,11 @@ flutter:
         - asset: fonts/SourceSansPro-SemiBold.ttf
         - asset: fonts/SourceSansPro-ExtraLight.ttf
         - asset: fonts/SourceSansPro-Bold.ttf
+
+    - family:  CustomIcon
+      fonts:
+        - asset: fonts/CustomIcon.ttf
+  
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
